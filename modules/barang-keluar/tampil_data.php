@@ -78,7 +78,7 @@ else {
                 <th class="text-center">Tanggal</th>
                 <th class="text-center">Barang</th>
                 <th class="text-center">Jumlah Keluar</th>
-                <th class="text-center">Satuan</th>
+                
                 <th class="text-center">Aksi</th>
               </tr>
             </thead>
@@ -87,9 +87,9 @@ else {
               // variabel untuk nomor urut tabel
               $no = 1;
               // sql statement untuk menampilkan data dari tabel "tbl_barang_keluar", tabel "tbl_barang", dan tabel "tbl_satuan"
-              $query = mysqli_query($mysqli, "SELECT a.id_transaksi, a.tanggal, a.barang, a.jumlah, b.nama_barang, c.nama_satuan
-                                              FROM tbl_barang_keluar as a INNER JOIN tbl_barang as b INNER JOIN tbl_satuan as c
-                                              ON a.barang=b.id_barang AND b.satuan=c.id_satuan 
+              $query = mysqli_query($mysqli, "SELECT a.id_transaksi, a.tanggal, a.barang, a.jumlah, b.nama_barang
+                                              FROM tbl_barang_keluar as a INNER JOIN tbl_barang as b 
+                                              ON a.barang=b.id_barang 
                                               ORDER BY a.id_transaksi DESC")
                                               or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
               // ambil data hasil query
@@ -101,7 +101,7 @@ else {
                   <td width="70" class="text-center"><?php echo date('d-m-Y', strtotime($data['tanggal'])); ?></td>
                   <td width="220"><?php echo $data['barang']; ?> - <?php echo $data['nama_barang']; ?></td>
                   <td width="100" class="text-right"><?php echo number_format($data['jumlah'], 0, '', '.'); ?></td>
-                  <td width="60"><?php echo $data['nama_satuan']; ?></td>
+                  
                   <td width="50" class="text-center">
                     <div>
                       <!-- tombol hapus data -->

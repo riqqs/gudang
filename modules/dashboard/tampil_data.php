@@ -156,34 +156,7 @@ else {
             </div>
           </div>
         </div>
-        <!-- menampilkan informasi jumlah data satuan -->
-        <div class="col-sm-12 col-md-4">
-          <div class="card card-stats card-round">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div class="icon-big text-center icon-info bubble-shadow-small">
-                    <i class="fas fa-folder-open"></i>
-                  </div>
-                </div>
-                <div class="col col-stats ml-3 ml-sm-0">
-                  <div class="numbers">
-                    <p class="card-category">Data Satuan</p>
-                    <?php
-                    // sql statement untuk menampilkan jumlah data pada tabel "tbl_satuan"
-                    $query = mysqli_query($mysqli, "SELECT * FROM tbl_satuan")
-                                                    or die('Ada kesalahan pada query jumlah data satuan : ' . mysqli_error($mysqli));
-                    // ambil jumlah data dari hasil query
-                    $jumlah_satuan = mysqli_num_rows($query);
-                    ?>
-                    <!-- tampilkan data -->
-                    <h4 class="card-title"><?php echo number_format($jumlah_satuan, 0, '', '.'); ?></h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <!-- menampilkan informasi jumlah data user -->
         <div class="col-sm-12 col-md-4">
           <div class="card card-stats card-round">
@@ -234,7 +207,7 @@ else {
                 <th class="text-center">Nama Barang</th>
                 <th class="text-center">Jenis Barang</th>
                 <th class="text-center">Stok</th>
-                <th class="text-center">Satuan</th>
+            
               </tr>
             </thead>
             <tbody>
@@ -242,11 +215,14 @@ else {
               // variabel untuk nomor urut tabel
               $no = 1;
               // sql statement untuk menampilkan data dari tabel "tbl_barang", tabel "tbl_jenis", dan tabel "tbl_satuan" berdasarkan "stok"
-              $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.jenis, a.stok_minimum, a.stok, a.satuan, b.nama_jenis, c.nama_satuan
-                                              FROM tbl_barang as a INNER JOIN tbl_jenis as b INNER JOIN tbl_satuan as c 
-                                              ON a.jenis=b.id_jenis AND a.satuan=c.id_satuan 
-                                              WHERE a.stok<=a.stok_minimum ORDER BY a.id_barang ASC")
-                                              or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
+              $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.jenis, a.stok_minimum, a.stok, b.nama_jenis
+                                FROM tbl_barang as a 
+                                INNER JOIN tbl_jenis as b  
+                                ON a.jenis = b.id_jenis 
+                                WHERE a.stok <= a.stok_minimum 
+                                ORDER BY a.id_barang ASC")
+                                or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
+
               // ambil data hasil query
               while ($data = mysqli_fetch_assoc($query)) { ?>
                 <!-- tampilkan data -->
@@ -256,8 +232,6 @@ else {
                   <td width="200"><?php echo $data['nama_barang']; ?></td>
                   <td width="150"><?php echo $data['nama_jenis']; ?></td>
                   <td width="70" class="text-right"><span class="badge badge-warning"><?php echo $data['stok']; ?></span></td>
-                  <td width="70"><?php echo $data['nama_satuan']; ?></td>
-                </tr>
               <?php } ?>
             </tbody>
           </table>

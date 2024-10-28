@@ -1,19 +1,6 @@
-<!-- Aplikasi Persediaan Barang Gudang Material dengan PHP 8 dan MySQLi
-************************************************************************
-* Developer   : Code Null
-* Company     : Code Null
-* Release     : Mei 2021
-* Update      : -
-* Website     : www.codenull.com
-* E-mail      : hi.codenull@gmail.com
-* WhatsApp    : -
--->
-
 <?php
 session_start();      // mengaktifkan session
 
-// pengecekan session login user 
-// jika user belum login
 if (empty($_SESSION['username']) && empty($_SESSION['password'])) {
   // alihkan ke halaman login dan tampilkan pesan peringatan login
   header('location: login.php?pesan=2');
@@ -30,10 +17,9 @@ else { ?>
     <meta name="author" content="Code Null" />
 
     <!-- Title -->
-    <title>Aplikasi Persediaan Barang Gudang Material dengan PHP 8 dan MySQLi</title>
+    <title>Smartech Inventory</title>
 
-    <!-- Favicon icon -->
-    <link rel="icon" href="assets/img/favicon.png" type="image/x-icon" />
+  
 
     <!-- Fonts and icons -->
     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
@@ -69,12 +55,12 @@ else { ?>
     <div class="wrapper">
       <div class="main-header">
         <!-- Logo Header -->
-        <div class="logo-header" data-background-color="purple">
+        <div class="logo-header" data-background-color="light-blue2">
           <!-- Logo Brand -->
           <a href="?module=dashboard" class="logo">
             <div class="navbar-brand">
-              <span><i class="fab fa-gofore fa-lg text-warning"></i></span>
-              <span class="text-white">udang Material</span>
+              
+              <span class="text-white">SmartechSolution</span>
             </div>
           </a>
           <!-- Navbar Toggler -->
@@ -93,21 +79,21 @@ else { ?>
         <!-- End Logo Header -->
 
         <!-- Navbar Header -->
-        <nav class="navbar navbar-header navbar-expand-lg" data-background-color="purple2">
+        <nav class="navbar navbar-header navbar-expand-lg" data-background-color="light-blue2">
           <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
               <!-- data user login -->
               <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="javascript:void(0)" aria-expanded="false">
                   <div class="avatar-sm-top mt-1">
-                    <img src="assets/img/avatar-1.png" alt="image profile" class="avatar-img rounded-circle">
+                    
                     <i class="fas fa-angle-down avatar-title"></i>
                   </div>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                   <li>
                     <div class="user-box">
-                      <div class="avatar-lg"><img src="assets/img/avatar-2.png" alt="image profile" class="avatar-img rounded"></div>
+                    
                       <div class="u-text pt-1">
                         <h4><?php echo $_SESSION['nama_user']; ?></h4>
                         <p class="text-muted"><?php echo $_SESSION['hak_akses']; ?></p>
@@ -137,24 +123,10 @@ else { ?>
       <div class="sidebar sidebar-style-2">
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
           <div class="sidebar-content">
-            <!-- data user login -->
-            <div class="user">
-              <div class="avatar-sm float-left mr-2">
-                <img src="assets/img/avatar-2.png" alt="image profile" class="avatar-img rounded-circle">
-              </div>
-              <div class="info">
-                <a>
-                  <span>
-                    <?php echo $_SESSION['nama_user']; ?>
-                    <span class="user-level"><?php echo $_SESSION['hak_akses']; ?></span>
-                  </span>
-                </a>
-              </div>
-            </div>
-            <!-- Sidebar Menu -->
+            
             <ul class="nav nav-secondary">
 
-              <!-- panggil file "sidebar_menu.php" untuk menampilkan menu -->
+              
               <?php include "sidebar_menu.php"; ?>
 
             </ul>

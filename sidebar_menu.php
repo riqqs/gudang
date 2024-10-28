@@ -59,12 +59,7 @@ else {
               <a href="?module=jenis">
                 <span class="sub-item">Jenis Barang</span>
               </a>
-            </li>
-            <li>
-              <a href="?module=satuan">
-                <span class="sub-item">Satuan</span>
-              </a>
-            </li>
+    </li>
           </ul>
         </div>
       </li>
@@ -98,54 +93,13 @@ else {
                 <span class="sub-item">Jenis Barang</span>
               </a>
             </li>
-            <li>
-              <a href="?module=satuan">
-                <span class="sub-item">Satuan</span>
-              </a>
-            </li>
+            
           </ul>
         </div>
       </li>
     <?php
     }
-    // jika menu satuan (tampil data / form entri / form ubah) dipilih, menu satuan aktif
-    elseif ($_GET['module'] == 'satuan' || $_GET['module'] == 'form_entri_satuan' || $_GET['module'] == 'form_ubah_satuan') { ?>
-      <li class="nav-section">
-        <span class="sidebar-mini-icon">
-          <i class="fa fa-ellipsis-h"></i>
-        </span>
-        <h4 class="text-section">Master</h4>
-      </li>
-
-      <li class="nav-item active submenu">
-        <a data-toggle="collapse" href="#barang">
-          <i class="fas fa-clone"></i>
-          <p>Barang</p>
-          <span class="caret"></span>
-        </a>
-
-        <div class="collapse show" id="barang">
-          <ul class="nav nav-collapse">
-            <li>
-              <a href="?module=barang">
-                <span class="sub-item">Data Barang</span>
-              </a>
-            </li>
-            <li>
-              <a href="?module=jenis">
-                <span class="sub-item">Jenis Barang</span>
-              </a>
-            </li>
-            <li class="active">
-              <a href="?module=satuan">
-                <span class="sub-item">Satuan</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li>
-    <?php
-    }
+    
     // jika tidak dipilih, menu barang tidak aktif
     else { ?>
       <li class="nav-section">
@@ -174,11 +128,7 @@ else {
                 <span class="sub-item">Jenis Barang</span>
               </a>
             </li>
-            <li>
-              <a href="?module=satuan">
-                <span class="sub-item">Satuan</span>
-              </a>
-            </li>
+            
           </ul>
         </div>
       </li>

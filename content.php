@@ -52,20 +52,7 @@ else {
         include "modules/jenis/form_ubah.php";
       }
       // jika module yang dipilih "satuan" dan hak akses bukan "Kepala Gudang"
-      elseif ($_GET['module'] == 'satuan' && $_SESSION['hak_akses'] != 'Kepala Gudang') {
-        // panggil file tampil data satuan
-        include "modules/satuan/tampil_data.php";
-      }
-      // jika module yang dipilih "form_entri_satuan" dan hak akses bukan "Kepala Gudang"
-      elseif ($_GET['module'] == 'form_entri_satuan' && $_SESSION['hak_akses'] != 'Kepala Gudang') {
-        // panggil file form entri satuan
-        include "modules/satuan/form_entri.php";
-      }
-      // jika module yang dipilih "form_ubah_satuan" dan hak akses bukan "Kepala Gudang"
-      elseif ($_GET['module'] == 'form_ubah_satuan' && $_SESSION['hak_akses'] != 'Kepala Gudang') {
-        // panggil file form ubah satuan
-        include "modules/satuan/form_ubah.php";
-      }
+     
       // jika module yang dipilih "barang_masuk" dan hak akses bukan "Kepala Gudang"
       elseif ($_GET['module'] == 'barang_masuk' && $_SESSION['hak_akses'] != 'Kepala Gudang') {
         // panggil file tampil data barang masuk
