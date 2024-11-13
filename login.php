@@ -1,16 +1,13 @@
-<!-- Aplikasi Persediaan Barang Gudang Material dengan PHP 8 dan MySQLi
-************************************************************************
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="Aplikasi Persediaan Barang Gudang Material dengan PHP 8 dan MySQLi" />
-  <meta name="author" content="Code Null" />
+  <meta name="description" content="Login Form" />
 
   <!-- Title -->
-  <title>Aplikasi Persediaan Barang Gudang Material dengan PHP 8 dan MySQLi</title>
+  <title>STS | Login</title>
 
   <!-- Favicon icon -->
   <link rel="icon" href="assets/img/favicon.png" type="image/x-icon" />
@@ -85,10 +82,7 @@
   <div class="wrapper wrapper-login">
     <div class="container container-login animated fadeIn">
       <!-- logo -->
-      <div class="text-center mb-4"><img src="assets/img/logo.png" alt="Logo" width="95px"></div>
-      <!-- judul -->
-      <h3 class="text-center">Aplikasi Persediaan Barang <br>Gudang Material</h3>
-      <!-- form login -->
+      <div class="text-center"><img src="assets/img/logo.png" alt="Logo" width="160px"></div>
       <form action="proses_login.php" method="post" class="needs-validation" novalidate>
         <div class="form-group form-floating-label">
           <div class="user-icon"><i class="fas fas fa-user"></i></div>
@@ -110,10 +104,7 @@
           <input type="submit" name="login" value="LOGIN" class="btn btn-secondary btn-rounded btn-login btn-block">
         </div>
 
-        <!-- footer -->
-        <div class="login-footer mt-4">
-          <span class="msg">&copy; Code Null - 2023</span>
-         </div>
+       
       </form>
     </div>
   </div>

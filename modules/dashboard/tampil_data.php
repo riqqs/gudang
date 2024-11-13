@@ -5,24 +5,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
   // alihkan ke halaman error 404
   header('location: 404.html');
 }
-// jika file di include oleh file lain, tampilkan isi file
-else {
-  // menampilkan pesan selamat datang
-  // jika pesan tersedia
-  if (isset($_GET['pesan'])) {
-    // jika pesan = 1
-    if ($_GET['pesan'] == 1) {
-      // tampilkan pesan selamat datang
-      echo '<div class="alert alert-notify alert-secondary alert-dismissible fade show" role="alert">
-              <span data-notify="icon" class="fas fa-user-alt"></span> 
-              <span data-notify="title" class="text-secondary">Hi! ' . $_SESSION['nama_user'] . '</span> 
-              <span data-notify="message">Selamat Datang di Aplikasi Persediaan Barang Gudang Material.</span>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>';
-    }
-  }
+// jika file di include oleh file lain, tampilkan isi fil
 ?>
   <div class="panel-header bg-secondary-gradient">
     <div class="page-inner py-5">
@@ -76,11 +59,11 @@ else {
               </div>
               <div class="col-7 col-stats">
                 <div class="numbers">
-                  <p class="card-category">Data Barang Masuk</p>
+                  <p class="card-category">Permintaan Sedang Dikirim</p>
                   <?php
                   // sql statement untuk menampilkan jumlah data pada tabel "tbl_barang_masuk"
-                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_barang_masuk")
-                                                  or die('Ada kesalahan pada query jumlah data barang masuk : ' . mysqli_error($mysqli));
+                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_permintaan_barang")
+                                                  or die('Ada kesalahan pada query jumlah data permintaan barang : ' . mysqli_error($mysqli));
                   // ambil jumlah data dari hasil query
                   $jumlah_barang_masuk = mysqli_num_rows($query);
                   ?>
@@ -122,73 +105,7 @@ else {
       </div>
     </div>
 
-    <?php
-    // mengecek hak akses
-    // jika hak akses bukan "Kepala Gudang" 
-    if ($_SESSION['hak_akses'] != 'Kepala Gudang') { ?>
-      <!-- tampilkan informasi jumlah data jenis barang, satuan, dan user -->
-      <div class="row">
-        <!-- menampilkan informasi jumlah data jenis barang -->
-        <div class="col-sm-12 col-md-4">
-          <div class="card card-stats card-round">
-            <div class="card-body ">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div class="icon-big text-center icon-warning bubble-shadow-small">
-                    <i class="fas fa-clone"></i>
-                  </div>
-                </div>
-                <div class="col col-stats ml-3 ml-sm-0">
-                  <div class="numbers">
-                    <p class="card-category">Data Jenis Barang</p>
-                    <?php
-                    // sql statement untuk menampilkan jumlah data pada tabel "tbl_jenis"
-                    $query = mysqli_query($mysqli, "SELECT * FROM tbl_jenis")
-                                                    or die('Ada kesalahan pada query jumlah data jenis barang : ' . mysqli_error($mysqli));
-                    // ambil jumlah data dari hasil query
-                    $jumlah_jenis_barang = mysqli_num_rows($query);
-                    ?>
-                    <!-- tampilkan data -->
-                    <h4 class="card-title"><?php echo number_format($jumlah_jenis_barang, 0, '', '.'); ?></h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- menampilkan informasi jumlah data user -->
-        <div class="col-sm-12 col-md-4">
-          <div class="card card-stats card-round">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div class="icon-big text-center icon-success bubble-shadow-small">
-                    <i class="fas fa-user-circle"></i>
-                  </div>
-                </div>
-                <div class="col col-stats ml-3 ml-sm-0">
-                  <div class="numbers">
-                    <p class="card-category">Data User</p>
-                    <?php
-                    // sql statement untuk menampilkan jumlah data pada tabel "tbl_user"
-                    $query = mysqli_query($mysqli, "SELECT * FROM tbl_user")
-                                                    or die('Ada kesalahan pada query jumlah data user : ' . mysqli_error($mysqli));
-                    // ambil jumlah data dari hasil query
-                    $jumlah_user = mysqli_num_rows($query);
-                    ?>
-                    <!-- tampilkan data -->
-                    <h4 class="card-title"><?php echo number_format($jumlah_user, 0, '', '.'); ?></h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <hr class="mt-1 pb-2">
-    <?php } ?>
+    
     
     <!-- menampilkan informasi stok barang yang telah mencapai batas minimum -->
     <div class="card">
@@ -202,9 +119,9 @@ else {
           <table id="basic-datatables" class="display table table-bordered table-striped table-hover">
             <thead>
               <tr>
-                <th class="text-center">No.</th>
-                <th class="text-center">ID Barang</th>
-                <th class="text-center">Nama Barang</th>
+                <th class="text-center">No.</th>  
+                <th class="text-center">Material Name</th>
+                <th class="text-center">Material Number</th>
                 <th class="text-center">Jenis Barang</th>
                 <th class="text-center">Stok</th>
             
@@ -215,7 +132,7 @@ else {
               // variabel untuk nomor urut tabel
               $no = 1;
               // sql statement untuk menampilkan data dari tabel "tbl_barang", tabel "tbl_jenis", dan tabel "tbl_satuan" berdasarkan "stok"
-              $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.jenis, a.stok_minimum, a.stok, b.nama_jenis
+              $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.material_number, a.jenis, a.stok_minimum, a.stok, b.nama_jenis
                                 FROM tbl_barang as a 
                                 INNER JOIN tbl_jenis as b  
                                 ON a.jenis = b.id_jenis 
@@ -227,11 +144,11 @@ else {
               while ($data = mysqli_fetch_assoc($query)) { ?>
                 <!-- tampilkan data -->
                 <tr>
-                  <td width="50" class="text-center"><?php echo $no++; ?></td>
-                  <td width="80" class="text-center"><?php echo $data['id_barang']; ?></td>
-                  <td width="200"><?php echo $data['nama_barang']; ?></td>
-                  <td width="150"><?php echo $data['nama_jenis']; ?></td>
-                  <td width="70" class="text-right"><span class="badge badge-warning"><?php echo $data['stok']; ?></span></td>
+                  <td width="5" class="text-center"><?php echo $no++; ?></td>
+                  <td width="200" class="text-left"><?php echo $data['nama_barang']; ?></td>
+                  <td width="80" class="text-center"><?php echo $data['material_number']; ?></td>
+                  <td width="50" class="text-center"><?php echo $data['nama_jenis']; ?></td>
+                  <td width="20" class="text-center"><span class="badge badge-warning"><?php echo $data['stok']; ?></span></td>
               <?php } ?>
             </tbody>
           </table>
@@ -239,4 +156,3 @@ else {
       </div>
     </div>
   </div>
-<?php } ?>

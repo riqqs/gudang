@@ -32,7 +32,7 @@ td {
 }
 body {
   font-size: 14px;
-  color: #575962;
+  color: #000000;
 }
 a {
   color: #1572e8;
@@ -1063,8 +1063,6 @@ body {
 }
 .sidebar.sidebar-style-2 .nav.nav-secondary > .nav-item.active > a {
   background: #3697e1 !important;
-  box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.1),
-    4px 4px 15px -5px rgba(104, 97, 206, 0.4) !important;
 }
 .sidebar.sidebar-style-2 .nav.nav-secondary > .nav-item.active > a:before {
   background: 0 0 !important;
@@ -7492,14 +7490,14 @@ label.error {
   border-color: #1572e8 !important;
 }
 .btn-secondary {
-  background: #6861ce !important;
-  border-color: #6861ce !important;
+  background: #0c91b1 !important;
+  border-color: #0c91b1 !important;
 }
 .btn-secondary:disabled,
 .btn-secondary:focus,
 .btn-secondary:hover {
-  background: #6861ce !important;
-  border-color: #6861ce !important;
+  background: #0c91b1 !important;
+  border-color: #0c91b1 !important;
 }
 .btn-info {
   background: #48abf7 !important;

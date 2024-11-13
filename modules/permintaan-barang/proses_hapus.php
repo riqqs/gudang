@@ -15,16 +15,16 @@ else {
   // mengecek data GET "id_transaksi"
   if (isset($_GET['id'])) {
     // ambil data GET dari tombol hapus
-    $id_transaksi = mysqli_real_escape_string($mysqli, $_GET['id']);
+    $id_permintaan = mysqli_real_escape_string($mysqli, $_GET['id']);
 
-    // sql statement untuk delete data dari tabel "tbl_barang_keluar" berdasarkan "id_transaksi"
-    $delete = mysqli_query($mysqli, "DELETE FROM tbl_barang_keluar WHERE id_transaksi='$id_transaksi'")
+    // sql statement untuk delete data dari tabel "tbl_barang_masuk" berdasarkan "id_transaksi"
+    $delete = mysqli_query($mysqli, "DELETE FROM tbl_permintaan_barang WHERE id_permintaan='$id_permintaan'")
                                      or die('Ada kesalahan pada query delete : ' . mysqli_error($mysqli));
     // cek query
     // jika proses delete berhasil
     if ($delete) {
-      // alihkan ke halaman barang keluar dan tampilkan pesan berhasil hapus data
-      header('location: ../../main.php?module=barang_keluar&pesan=2');
+      // alihkan ke halaman barang masuk dan tampilkan pesan berhasil hapus data
+      header('location: ../../main.php?module=permintaan_barang&pesan=2');
     }
   }
 }

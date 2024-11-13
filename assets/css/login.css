@@ -1,12 +1,6 @@
 /*     	Login     */
 .login {
-  background: #6861ce !important;
-  background: -webkit-linear-gradient(
-    legacy-direction(-45deg),
-    #2a20ac,
-    #6861ce
-  ) !important;
-  background: linear-gradient(-45deg, #2a20ac, #6861ce) !important;
+  background: #000000 !important;
 }
 
 .login .wrapper.wrapper-login {

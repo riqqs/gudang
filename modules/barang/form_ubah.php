@@ -13,9 +13,9 @@ else {
     $id_barang = $_GET['id'];
 
     // sql statement untuk menampilkan data dari tabel "tbl_barang", tabel "tbl_jenis", dan tabel "tbl_satuan" berdasarkan "id_barang"
-    $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.jenis, a.stok_minimum, a.stok, a.satuan, a.foto, b.nama_jenis, c.nama_satuan
-                                    FROM tbl_barang as a INNER JOIN tbl_jenis as b INNER JOIN tbl_satuan as c 
-                                    ON a.jenis=b.id_jenis AND a.satuan=c.id_satuan 
+    $query = mysqli_query($mysqli, "SELECT a.id_barang, a.nama_barang, a.material_number, a.jenis, a.stok_minimum, a.stok, b.nama_jenis
+                                    FROM tbl_barang as a INNER JOIN tbl_jenis as b 
+                                    ON a.jenis=b.id_jenis 
                                     WHERE a.id_barang='$id_barang'")
                                     or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
     // ambil data hasil query
@@ -65,6 +65,12 @@ else {
               </div>
 
               <div class="form-group">
+                <label>Material Number <span class="text-danger">*</span></label>
+                <input type="text" name="material_number" class="form-control" autocomplete="off" value="<?php echo $data['material_number']; ?>" required>
+                <div class="invalid-feedback">Material number tidak boleh kosong.</div>
+              </div>
+
+              <div class="form-group">
                 <label>Jenis Barang <span class="text-danger">*</span></label>
                 <select name="jenis" class="form-control chosen-select" autocomplete="off" required>
                   <option value="<?php echo $data['jenis']; ?>"><?php echo $data['nama_jenis']; ?></option>
@@ -89,54 +95,8 @@ else {
                 <div class="invalid-feedback">Stok minimum tidak boleh kosong.</div>
               </div>
 
-              <div class="form-group">
-                <label>Satuan <span class="text-danger">*</span></label>
-                <select name="satuan" class="form-control chosen-select" autocomplete="off" required>
-                  <option value="<?php echo $data['satuan']; ?>"><?php echo $data['nama_satuan']; ?></option>
-                  <option disabled value="">-- Pilih --</option>
-                  <?php
-                  // sql statement untuk menampilkan data dari tabel "tbl_satuan"
-                  $query_satuan = mysqli_query($mysqli, "SELECT * FROM tbl_satuan ORDER BY nama_satuan ASC")
-                                                         or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
-                  // ambil data hasil query
-                  while ($data_satuan = mysqli_fetch_assoc($query_satuan)) {
-                    // tampilkan data
-                    echo "<option value='$data_satuan[id_satuan]'>$data_satuan[nama_satuan]</option>";
-                  }
-                  ?>
-                </select>
-                <div class="invalid-feedback">Satuan tidak boleh kosong.</div>
-              </div>
+              <!-- Menghapus elemen foto, tidak ada form input foto -->
             </div>
-            <div class="col-md-5 ml-auto">
-              <div class="form-group">
-                <label>Foto Barang</label>
-                <input type="file" id="foto" name="foto" class="form-control" autocomplete="off">
-                <div class="card mt-3 mb-3">
-                  <div class="card-body text-center">
-                    <?php
-                    // mengecek data foto barang
-                    // jika data "foto" tidak ada di database
-                    if (is_null($data['foto'])) { ?>
-                      <!-- tampilkan foto default -->
-                      <img style="max-height:200px" src="images/no_image.png" class="img-fluid foto-preview" alt="Foto Barang">
-                    <?php
-                    }
-                    // jika data "foto" ada di database
-                    else { ?>
-                      <!-- tampilkan foto barang dari database -->
-                      <img style="max-height:200px" src="images/<?php echo $data['foto']; ?>" class="img-fluid foto-preview" alt="Foto Barang">
-                    <?php } ?>
-                  </div>
-                </div>
-                <small class="form-text text-secondary">
-                  Keterangan : <br>
-                  - Tipe file yang bisa diunggah adalah *.jpg atau *.png. <br>
-                  - Ukuran file yang bisa diunggah maksimal 1 Mb.
-                </small>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="card-action">
           <!-- tombol simpan data -->
@@ -147,54 +107,4 @@ else {
       </form>
     </div>
   </div>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      // validasi file dan preview file sebelum diunggah
-      $('#foto').change(function() {
-        // mengambil value dari file
-        var filePath = $('#foto').val();
-        var fileSize = $('#foto')[0].files[0].size;
-        // tentukan extension file yang diperbolehkan
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-
-        // Jika tipe file yang diunggah tidak sesuai dengan "allowedExtensions"
-        if (!allowedExtensions.exec(filePath)) {
-          // tampilkan pesan peringatan tipe file tidak sesuai
-          $('#pesan').html('<div class="alert alert-notify alert-danger alert-dismissible fade show" role="alert"><span data-notify="icon" class="fas fa-times"></span><span data-notify="title" class="text-danger">Gagal!</span> <span data-notify="message">Tipe file tidak sesuai. Harap unggah file yang memiliki tipe *.jpg atau *.png.</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-          // reset input file
-          $('#foto').val('');
-          // tampilkan file default
-          $('.foto-preview').attr('src', 'images/no_image.png');
-
-          return false;
-        }
-        // jika ukuran file yang diunggah lebih dari 1 Mb
-        else if (fileSize > 1000000) {
-          // tampilkan pesan peringatan ukuran file tidak sesuai
-          $('#pesan').html('<div class="alert alert-notify alert-danger alert-dismissible fade show" role="alert"><span data-notify="icon" class="fas fa-times"></span><span data-notify="title" class="text-danger">Gagal!</span> <span data-notify="message">Ukuran file lebih dari 1 Mb. Harap unggah file yang memiliki ukuran maksimal 1 Mb.</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-          // reset input file
-          $('#foto').val('');
-          // tampilkan file default
-          $('.foto-preview').attr('src', 'images/no_image.png');
-
-          return false;
-        }
-        // jika file yang diunggah sudah sesuai, tampilkan preview file
-        else {
-          var fileInput = document.getElementById('foto');
-
-          if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-              // preview file
-              $('.foto-preview').attr('src', e.target.result);
-            };
-          };
-          reader.readAsDataURL(fileInput.files[0]);
-        }
-      });
-    });
-  </script>
 <?php } ?>
