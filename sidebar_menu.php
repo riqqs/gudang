@@ -25,7 +25,7 @@ $menuItems = [
     ]
   ],
   // New "Transaksi Barang" section with "Barang Masuk" and "Barang Keluar" as subitems
-  'Transaksi Barang' => [
+  'Stock Transfer' => [
     'icon' => 'fas fa-exchange-alt', // You can choose a different icon here if needed
     'label' => 'Transaksi Barang',
     'subitems' => [
@@ -34,6 +34,16 @@ $menuItems = [
       ['module' => 'perpindahan_barang', 'label' => 'Perpindahan Barang'],
     ]
   ],
+
+  'Sales' => [
+    'icon' => 'fas fa-shopping-cart', 
+    'label' => 'Penjualan',
+    'subitems' => [
+      //['module' => 'barang_masuk', 'label' => 'Barang Masuk'],
+      ['module' => 'data_penjualan', 'label' => 'Data Penjualan'],
+    ]
+  ],
+
   'Pengaturan' => [
     'icon' => 'fas fa-user',
     'module' => 'user',

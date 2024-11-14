@@ -87,10 +87,10 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
               </div>
               <div class="col-7 col-stats">
                 <div class="numbers">
-                  <p class="card-category">Data Barang Keluar</p>
+                  <p class="card-category">Data Perpindahan Barang</p>
                   <?php
                   // sql statement untuk menampilkan jumlah data pada tabel "tbl_barang_keluar"
-                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_barang_keluar")
+                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_perpindahan_barang")
                                                   or die('Ada kesalahan pada query jumlah data barang keluar : ' . mysqli_error($mysqli));
                   // ambil jumlah data dari hasil query
                   $jumlah_barang_keluar = mysqli_num_rows($query);

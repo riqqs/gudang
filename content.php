@@ -28,16 +28,13 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     include "modules/jenis/form_ubah.php";
   } 
   
-  elseif ($_GET['module'] == 'barang_masuk') {
-    include "modules/barang-masuk/tampil_data.php";
-  } elseif ($_GET['module'] == 'form_entri_barang_masuk') {
-    include "modules/barang-masuk/form_entri.php";
-  } 
-  
-  elseif ($_GET['module'] == 'barang_keluar') {
-    include "modules/barang-keluar/tampil_data.php";
-  } elseif ($_GET['module'] == 'form_entri_barang_keluar') {
-    include "modules/barang-keluar/form_entri.php"; 
+ elseif ($_GET['module'] == 'data_penjualan') {
+  include "modules/penjualan-barang/tampil_data.php"; 
+} elseif ($_GET['module'] == 'form_entri_penjualan_barang') {
+  include "modules/penjualan-barang/form_entri.php"; 
+} elseif ($_GET['module'] == 'tampil_detail_penjualan') {
+  include "modules/penjualan-barang/tampil_detail.php";
+
 
   } elseif ($_GET['module'] == 'permintaan_barang') {
     include "modules/permintaan-barang/tampil_data.php"; 
