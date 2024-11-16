@@ -21,7 +21,7 @@ $menuItems = [
     'subitems' => [
       ['module' => 'barang', 'label' => 'Data Barang'],
       ['module' => 'jenis', 'label' => 'Jenis Barang'],
-      ['module' => 'lokasi', 'label' => 'Lokasi Barang'],
+      ['module' => 'customer', 'label' => 'Data Customer'],
     ]
   ],
   // New "Transaksi Barang" section with "Barang Masuk" and "Barang Keluar" as subitems

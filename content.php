@@ -27,6 +27,16 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
   } elseif ($_GET['module'] == 'form_ubah_jenis') {
     include "modules/jenis/form_ubah.php";
   } 
+
+  elseif ($_GET['module'] == 'customer') {
+    include "modules/customer/tampil_data.php";
+  } elseif ($_GET['module'] == 'form_entri_customer') {
+    include "modules/customer/form_entri.php";
+  } elseif ($_GET['module'] == 'form_ubah_customer') {
+    include "modules/customer/form_ubah.php";
+  } elseif ($_GET['module'] == 'tampil_detail_customer') {
+    include "modules/customer/tampil_detail.php";
+  } 
   
  elseif ($_GET['module'] == 'data_penjualan') {
   include "modules/penjualan-barang/tampil_data.php"; 

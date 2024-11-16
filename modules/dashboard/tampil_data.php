@@ -62,7 +62,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                   <p class="card-category">Permintaan Sedang Dikirim</p>
                   <?php
                   // sql statement untuk menampilkan jumlah data pada tabel "tbl_barang_masuk"
-                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_permintaan_barang")
+                  $query = mysqli_query($mysqli, "SELECT * FROM tbl_permintaan_barang WHERE status = 'pending'")
                                                   or die('Ada kesalahan pada query jumlah data permintaan barang : ' . mysqli_error($mysqli));
                   // ambil jumlah data dari hasil query
                   $jumlah_barang_masuk = mysqli_num_rows($query);

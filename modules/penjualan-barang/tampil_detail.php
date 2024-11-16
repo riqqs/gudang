@@ -110,7 +110,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                                         onclick="openEditModal('<?php echo $data_detail['id_penjualan_detail']; ?>', '<?php echo $data_detail['jumlah']; ?>')">
                                         <i class="fas fa-pencil fa-sm"></i>
                                     </button>
-                                    <a href="modules/penjualan-barang/proses_hapus_detail.php?id=<?php echo htmlspecialchars($data_detail['id_penjualan_detail']); ?>"
+                                    <a href="modules/penjualan-barang/proses_hapus_detail.php?id=<?php echo htmlspecialchars($data_detail['id_barang']); ?>"
                                         onclick="return confirm('Anda yakin ingin menghapus barang ini?')"
                                         class="btn btn-icon btn-round btn-danger btn-sm" data-toggle="tooltip"
                                         data-placement="top" title="Hapus">
