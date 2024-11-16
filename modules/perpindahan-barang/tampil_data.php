@@ -84,7 +84,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                             <td width="30" class="text-center"><?php echo $data['status']; ?></td>
                             <td width="60" class="text-center">
                                 <div>
-                                    <a href="?module=tampil_detail_Perpindahan&id=<?php echo $data['id_perpindahan']; ?>"
+                                    <a href="?module=tampil_detail_perpindahan&id=<?php echo $data['id_perpindahan']; ?>"
                                        class="btn btn-icon btn-round btn-primary btn-sm mr-md-1" data-toggle="tooltip"
                                        data-placement="top" title="Detail">
                                         <i class="fas fa-clone fa-sm"></i>

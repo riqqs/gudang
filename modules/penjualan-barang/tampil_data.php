@@ -71,9 +71,9 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                     <tbody>
                         <?php
                         $no = 1;
-                        $query = mysqli_query($mysqli, "SELECT a.id_Penjualan, a.quotation_no, a.tanggal, a.keterangan, a.status
+                        $query = mysqli_query($mysqli, "SELECT a.id_penjualan, a.quotation_no, a.tanggal, a.keterangan, a.status
                                                       FROM tbl_Penjualan_barang as a 
-                                                      ORDER BY a.id_Penjualan ASC") 
+                                                      ORDER BY a.id_penjualan ASC") 
                         or die('Error in query: ' . mysqli_error($mysqli));
                         
                         while ($data = mysqli_fetch_assoc($query)) {
@@ -89,7 +89,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                             <td class="text-center">
                                 <div>
                                     <!-- View Details -->
-                                    <a href="?module=tampil_detail_Penjualan&id=<?php echo $data['id_penjualan']; ?>" 
+                                    <a href="?module=tampil_detail_penjualan&id=<?php echo $data['id_penjualan']; ?>" 
                                        class="btn btn-icon btn-round btn-primary btn-sm mr-md-1" title="Detail">
                                        <i class="fas fa-clone fa-sm"></i>
                                     </a>
@@ -97,14 +97,14 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                                     <!-- Process Sale (change status to 'Terproses') -->
                                     <button type="button" class="btn btn-icon btn-round btn-sm mr-md-1 <?php echo ($status == 'Terproses') ? 'btn-secondary' : 'btn-success'; ?>" 
                                             data-toggle="modal" data-target="#confirmTransferModal" 
-                                            data-id_Penjualan="<?php echo $data['id_penjualan']; ?>" 
+                                            data-id_penjualan="<?php echo $data['id_penjualan']; ?>" 
                                             <?php echo ($status == 'Terproses') ? 'disabled' : ''; ?>>
                                         <i class="fas <?php echo ($status == 'Terproses') ? 'fa-check-circle' : 'fa-chevron-circle-right'; ?> fa-sm"></i>
                                     </button>
 
                                     <!-- Delete Sale -->
                                     <a href="modules/penjualan-barang/proses_hapus.php?id=<?php echo $data['id_penjualan']; ?>" 
-                                       onclick="return confirm('Yakin ingin menghapus data Penjualan barang <?php echo $data['id_penjualan']; ?>?')" 
+                                       onclick="return confirm('Yakin ingin menghapus data penjualan barang <?php echo $data['id_penjualan']; ?>?')" 
                                        class="btn btn-icon btn-round btn-danger btn-sm" title="Hapus">
                                         <i class="fas fa-trash fa-sm"></i>
                                     </a>
@@ -130,8 +130,8 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
                 </button>
             </div>
             <div class="modal-body">
-                <form id="transferForm" method="POST" action="modules/Penjualan-barang/proses_perpindahan.php">
-                    <input type="hidden" id="id_Penjualan_modal" name="id_Penjualan" value="">
+                <form id="transferForm" method="POST" action="modules/penjualan-barang/proses_perpindahan.php">
+                    <input type="hidden" id="id_penjualan_modal" name="id_penjualan" value="">
                     <div class="form-group">
                         <label for="tanggal_transfer">Tanggal Perpindahan</label>
                         <input type="date" class="form-control" id="tanggal_transfer" name="tanggal_transfer" required>
@@ -149,11 +149,11 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
 <?php } ?>
 
 <script>
-// When the modal is triggered, set the id_Penjualan value
+// When the modal is triggered, set the id_penjualan value
 $('#confirmTransferModal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
-    var id_Penjualan = button.data('id_Penjualan'); // Extract info from data-* attributes
+    var id_penjualan = button.data('id_penjualan'); // Extract info from data-* attributes
     var modal = $(this);
-    modal.find('#id_Penjualan_modal').val(id_Penjualan);
+    modal.find('#id_penjualan_modal').val(id_penjualan);
 });
 </script>

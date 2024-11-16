@@ -31,21 +31,39 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
           </div>
           <form id="entryForm" method="post" class="needs-validation" novalidate>
             <div class="card-body">
+              <!-- Customer Dropdown -->
               <div class="form-group">
-              <?php
-$query = mysqli_query($mysqli, "SELECT RIGHT(id_penjualan,7) as nomor FROM tbl_penjualan_barang ORDER BY id_penjualan DESC LIMIT 1")
-  or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
+    <label>Pilih Customer <span class="text-danger">*</span></label>
+    <select name="id_customer" id="id_customer" class="form-control">
+        <option selected disabled value="">-- Pilih Customer --</option>
+        <?php
+        // Query untuk mengambil data customer
+        $query_customer = mysqli_query($mysqli, "SELECT id_customer, nama FROM tbl_customer ORDER BY id_customer ASC")
+            or die('Ada kesalahan pada query tampil data customer: ' . mysqli_error($mysqli));
+        while ($data_customer = mysqli_fetch_assoc($query_customer)) {
+            echo "<option value='$data_customer[id_customer]'>$data_customer[nama]</option>";
+        }
+        ?>
+    </select>
+    <div class="invalid-feedback">Customer harus dipilih.</div>
+</div>
 
-$rows = mysqli_num_rows($query);
 
-// Cast 'nomor' as integer before adding 1
-$nomor_urut = ($rows <> 0) ? (int) mysqli_fetch_assoc($query)['nomor'] + 1 : 1;
+              <div class="form-group">
+                <?php
+                $query = mysqli_query($mysqli, "SELECT RIGHT(id_penjualan,6) as nomor FROM tbl_penjualan_barang ORDER BY id_penjualan DESC LIMIT 1")
+                  or die('Ada kesalahan pada query tampil data : ' . mysqli_error($mysqli));
 
-$id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
-?>
+                $rows = mysqli_num_rows($query);
+
+                // Cast 'nomor' as integer before adding 1
+                $nomor_urut = ($rows <> 0) ? (int) mysqli_fetch_assoc($query)['nomor'] + 1 : 1;
+
+                $id_penjualan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
+                ?>
                 <label>ID Pesanan <span class="text-danger">*</span></label>
                 <div class="input-group">
-                  <input type="text" name="id_pesanan" class="form-control" value="<?php echo $id_pesanan; ?>" readonly>
+                  <input type="text" name="id_penjualan" class="form-control" value="<?php echo $id_penjualan; ?>" readonly>
                   <div class="input-group-append">
                     <button type="button" id="saveTransaction" class="btn btn-primary">Simpan</button>
                   </div>
@@ -60,7 +78,7 @@ $id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
 
               <div class="form-group">
                 <label>No Quotation <span class="text-danger">*</span></label>
-                <input type="text" id="quotation" name="quotation" class="form-control" required>
+                <input type="text" id="quotation_no" name="quotation_no" class="form-control">
               </div>
 
               <div class="form-group">
@@ -133,11 +151,11 @@ $id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
           </button>
         </div>
         <div class="modal-body">
-        <div class="form-group">
-  <label for="keterangan">Keterangan <span class="text-danger">*</span></label>
-  <textarea id="keterangan" name="keterangan" rows="4" class="form-control" placeholder="Masukkan keterangan di sini..." required style="resize: none;"></textarea>
-  <div class="invalid-feedback">Keterangan wajib diisi.</div>
-</div>
+          <div class="form-group">
+            <label for="keterangan">Keterangan <span class="text-danger">*</span></label>
+            <textarea id="keterangan" name="keterangan" rows="4" class="form-control" placeholder="Masukkan keterangan di sini..." required style="resize: none;"></textarea>
+            <div class="invalid-feedback">Keterangan wajib diisi.</div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" id="confirmSave" class="btn btn-primary">Simpan</button>
@@ -146,8 +164,11 @@ $id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
     </div>
   </div>
 
+  
+
   <script type="text/javascript">
     $(document).ready(function() {
+      // Change event for data_barang
       $('#data_barang').change(function() {
         var id_barang = $('#data_barang').val();
         $.ajax({
@@ -162,6 +183,7 @@ $id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
         });
       });
 
+      // Keyup event for jumlah field
       $('#jumlah').keyup(function() {
         var stok = parseInt($('#data_stok').val());
         var jumlah = parseInt($('#jumlah').val());
@@ -169,105 +191,142 @@ $id_pesanan = "ORD-" . str_pad($nomor_urut, 6, "0", STR_PAD_LEFT);
         $('#total').val(total_stok);
       });
 
-      // Add item to list
+      // Add item to the list
       $('#addItem').click(function() {
         var id_barang = $('#data_barang').val();
         var nama_barang = $("#data_barang option:selected").text();
         var jumlah = $('#jumlah').val();
 
+        // Prevent adding duplicate items
         if ($('#itemList tr[data-id="'+ id_barang +'"]').length > 0) {
           $('#pesan').html('<div class="alert alert-danger">Barang sudah ditambahkan.</div>');
           return;
         }
 
+        // Validation: Check if id_barang and jumlah are valid
         if (!id_barang || !jumlah || jumlah <= 0) {
           $('#pesan').html('<div class="alert alert-warning">Silakan isi data barang dan jumlah dengan benar.</div>');
           return;
         }
 
-          $('#itemList').append(
-            `<tr data-id="${id_barang}">
-              <td>${id_barang}</td>
-              <td>${nama_barang}</td>
-              <td>${jumlah}</td>
-              <td><button class="btn btn-danger btn-sm removeItem">Hapus</button></td>
-            </tr>`
-          );
+        // Check if quotation_no is filled
+        if (!$('#quotation_no').val()) {
+          alert('No Quotation tidak boleh kosong.');
+          return;
+        }
 
-        $('#entryForm')[0].reset();
+        // Add item to the table
+        $('#itemList').append(
+          `<tr data-id="${id_barang}">
+            <td>${id_barang}</td>
+            <td>${nama_barang}</td>
+            <td>${jumlah}</td>
+            <td><button class="btn btn-danger btn-sm removeItem">Hapus</button></td>
+          </tr>`
+        );
+
+        // Reset the form fields
         $('#data_barang').trigger("chosen:updated");
 
+        // Remove item from list
         $('.removeItem').click(function() {
           $(this).closest('tr').remove();
         });
       });
 
       // Show modal on "Simpan" button click
-      // Show modal on "Simpan" button click
-$('#saveTransaction').click(function() {
-    if ($('#itemList').children().length === 0) {
-        // Display an alert or message if the item list is empty
-        alert('Daftar Pesanan barang kosong. Harap tambahkan barang terlebih dahulu.');
-        return; // Prevent further action
+      $('#saveTransaction').click(function() {
+        // Ensure itemList is not empty
+        if ($('#itemList').children().length === 0) {
+          alert('Daftar Pesanan barang kosong. Harap tambahkan barang terlebih dahulu.');
+          return;
+        }
+
+        console.log('Quotation No:', $('#quotation_no').val());  // Log the value of the input field
+    if (!$('#quotation_no').val()) {
+        alert('No Quotation tidak boleh kosong.');
+        return; // Stop further execution if quotation_no is empty
     }
-    $('#confirmationModal').modal('show');
-});
 
+        $('#confirmationModal').modal('show');
+      });
 
+      // Datepicker configuration
       $('#tanggal').datepicker({
         format: 'yyyy-mm-dd',    // Ensure the format is yyyy-mm-dd
         autoclose: true,         // Automatically close the date picker after selecting a date
         todayHighlight: true,    // Highlight today's date
         clearBtn: true           // Show the "Clear" button
-    });
+      });
 
-      // Handle "Simpan" inside modal
+      // Handle confirmation inside modal
       $('#confirmSave').click(function() {
-    var keterangan = $('#keterangan').val();
-    if (!keterangan) {
-        $('#keterangan').addClass('is-invalid');
-        return;
-    } else {
-        $('#keterangan').removeClass('is-invalid');
-    }
-    
-    // Membangun itemList dari tabel barang yang diinput
-    var itemList = [];
-    $('#itemList tr').each(function() {
-        var id_barang = $(this).data('id');
-        var jumlah = $(this).find('td').eq(2).text(); // Ambil kolom jumlah
+        var keterangan = $('#keterangan').val();
+        var quotation_no = $('#quotation_no').val(); // Get the value of quotation_no
+        var id_customer = $('#id_customer').val(); // Get the selected customer ID
 
-        if (id_barang && jumlah) {
-            itemList.push({ id_barang: id_barang, jumlah: jumlah });
+        // Validate keterangan
+        if (!keterangan) {
+          $('#keterangan').addClass('is-invalid');
+          return;
+        } else {
+          $('#keterangan').removeClass('is-invalid');
         }
-    });
 
-    // Serialize form data dan tambahkan itemList sebagai JSON
-    var formData = $('#entryForm').serialize() + '&keterangan=' + encodeURIComponent(keterangan) + '&itemList=' + encodeURIComponent(JSON.stringify(itemList));
+        // Validate quotation_no
+        if (!quotation_no) {
+          alert('No Quotation tidak boleh kosong.');
+          return;
+        }
 
-    $.ajax({
-        url: "modules/Pesanan-barang/proses_Pesanan.php",
-        type: 'POST',
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
+        // Validate customer selection
+        if (!id_customer) {
+          alert('Customer harus dipilih.');
+          return;
+        }
+
+        // Build itemList from the table rows
+        var itemList = [];
+        $('#itemList tr').each(function() {
+          var id_barang = $(this).data('id');
+          var jumlah = $(this).find('td').eq(2).text(); // Get the quantity column
+
+          if (id_barang && jumlah) {
+            itemList.push({ id_barang: id_barang, jumlah: jumlah });
+          }
+        });
+
+        // Serialize form data and add itemList, quotation_no, and id_customer
+        var formData = $('#entryForm').serialize() + 
+                       '&keterangan=' + encodeURIComponent(keterangan) + 
+                       '&quotation_no=' + encodeURIComponent(quotation_no) +  // Include quotation_no
+                       '&id_customer=' + encodeURIComponent(id_customer) + // Include customer id
+                       '&itemList=' + encodeURIComponent(JSON.stringify(itemList));
+
+        $.ajax({
+          url: "modules/penjualan-barang/proses_entri.php",
+          type: 'POST',
+          data: formData,
+          dataType: 'json',
+          success: function(response) {
             if (response.success) {
-                alert('Pesanan disimpan! ID: ' + response.id_pesanan);
-                window.location.href = '../gudang/main.php?module=Pesanan_barang';
+              alert('Pesanan disimpan! ID: ' + response.id_penjualan);
+              window.location.href = '../gudang/main.php?module=data_penjualan';
             } else {
-                alert('Error: ' + response.message);
+              alert('Error: ' + response.message);
             }
-        },
-        error: function(xhr, status, error) {
+          },
+          error: function(xhr, status, error) {
             console.log("XHR:", xhr);
             console.log("Status:", status);
             console.log("Error:", error);
             console.log("Response Text:", xhr.responseText);
             alert('Error saving transaction: ' + xhr.responseText);
-        }
+          }
+        });
+      });
     });
-});
+</script>
 
-    });
-  </script>
+
 <?php } ?>

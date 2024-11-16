@@ -152,7 +152,7 @@ $id_permintaan = "IR-" . str_pad($nomor_urut, 7, "0", STR_PAD_LEFT);
         var id_barang = $('#data_barang').val();
         $.ajax({
           type: "GET",
-          url: "modules/barang-masuk/get_barang.php",
+          url: "modules/permintaan-barang/get_barang.php",
           data: { id_barang: id_barang },
           dataType: "JSON",
           success: function(result) {
